@@ -1,6 +1,9 @@
 {
   "name": "form-builder-poc",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.18.4"
+  },
   "description": "In this project we are generating dynamic form input and update them",
   "main": "index.js",
   "scripts": {
