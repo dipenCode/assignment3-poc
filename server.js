@@ -3,6 +3,9 @@ const bodyParser= require('body-parser');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const { ObjectId } = require('mongodb');
+const dotenv = require('dotenv');
+dotenv.config({path: './config.env'});
+
 const DB_URL = 'mongodb+srv://Dipen:N1eJrkjrWK035jnW@cluster0.f5vbx.mongodb.net/myFirstDatabase?retryWrites=true';
 
 
@@ -62,9 +65,9 @@ MongoClient.connect(DB_URL, { useUnifiedTopology: true })
   })
 
 
-app.listen(3000, function() {
-    console.log('listening on 3000')
-})
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port");
+});
   
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
