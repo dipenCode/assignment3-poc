@@ -1,0 +1,38 @@
+<h2>Hello</h2>
+<form action="/quotes" method="POST">
+    <span>Please select input type : </span>
+    <select name="input_type">
+      <option value="text">TextBox</option>
+    </select> <br> <br>
+
+    <span>Please enter class</span>
+      <input type="text" placeholder="Enter class" name="class_name"> <br> <br>
+
+      <span> Please enter name for the input field</span>
+    <input type="text" placeholder="Enter name for input field" name="input_name"> <br> <br>
+
+    <span> Please enter id for the input field</span>
+    <input type="text" placeholder="Enter id for input field" name="input_id"> <br> <br>
+
+    <span> Please enter placeholder for the input field</span>
+    <input type="text" placeholder="Enter id for input field" name="input_placeholder"> <br> <br>
+
+    <span> Please enter style for the input field</span>
+    <input type="text" placeholder="Enter id for input field" name="input_style"> <br> <br>
+
+
+    <button type="submit">Generate input field</button>
+  </form>
+
+  <% if(Object.keys(fields_attr).length> 0){ %>
+  <div class="quotes">
+        <input 
+            type = '<%= fields_attr.input_type %>'
+            class = '<%= fields_attr.class_name %>'
+            id = '<%= fields_attr.input_id %>'
+            name = '<%= fields_attr.input_name %>'
+            placeholder = '<%= fields_attr.input_placeholder %>'
+            style = '<%= fields_attr.input_style %>'
+        >
+  </div>
+  <% } %>

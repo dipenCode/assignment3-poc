@@ -1,0 +1,21 @@
+{
+  "name": "form-builder-poc",
+  "version": "1.0.0",
+  "description": "In this project we are generating dynamic form input and update them",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "Dipendra",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongodb": "^4.0.1",
+    "mongoose": "^5.13.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

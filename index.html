@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>POC Dynamic field</title>
+</head>
+<body>
+  <div align="center">
+    <h2> Dynamic attribute of a form element </h2>
+  </div>
+  <div align = "center">
+    <h3>Enter form elements</h3>
+  <div>
+    <table>
+      <tr>
+        <td><label>Select input type : </label></td>
+        <td><select id="selectValue" name="input_type" style="width: 174Px; height: 26px;">
+          <option value="text">Text</option>
+        </select></td>
+      </tr> 
+      <tr>
+        <td><label>Enter class name for the input field: </label></td>
+        <td><input id="className" onkeyup="changeClassValue()" type="text" name="class_name"></td>
+      </tr>
+      <tr>
+        <td><label>Enter placeholder for the input field : </label></td>
+        <td><input id="placeholderName" onkeyup="changePlaceholderValue()" type="text" name="input_placeholder"></td>
+      </tr>
+      <tr>
+        <td><label>Enter id for the input field : </label></td>
+        <td><input id="idName" onkeyup="changeIdValue()" type="text" name="input_id"></td>
+      </tr>
+
+    </table>
+  </div>
+
+
+ <br>
+  <br>
+  <button id="generate" onclick="generateField()">Generate Field</button>
+
+  <button id="update" onclick="updateFields()" style="display: none;">Update Field</button>
+
+
+  <br> <br>
+  
+  <div id="form"></div>
+  <p id="demo"></p>
+
+  <input type="hidden" id="data_id" value="" name="data_id">
+
+</div>
+  
+</body>
+
+
+
+<script type="text/javascript">
+
+function generateField(){
+  
+  var selectValue = document.getElementById("selectValue").value;
+  var className = document.getElementById("className").value;
+  var placeholderName = document.getElementById("placeholderName").value;
+  var idName = document.getElementById("idName").value;
+  
+  var node = document.createElement("input");
+  
+  var attClass = document.createAttribute("class"); 
+  attClass.value = className;
+  node.setAttributeNode(attClass);
+  
+  var attPlaceholder = document.createAttribute("placeholder"); 
+   attPlaceholder.value = placeholderName;
+  node.setAttributeNode(attPlaceholder);
+  
+  var attId = document.createAttribute("id"); 
+  attId.value = idName;
+  node.setAttributeNode(attId);
+  
+  // var attValue = document.createAttribute("value"); 
+  // attValue.value = valueName;
+  // node.setAttributeNode(attValue);
+  
+  var attType = document.createAttribute("type"); 
+  attType.value = selectValue;
+  node.setAttributeNode(attType);
+
+  var style = document.createAttribute("style"); 
+  style.value = "width: 250px;height: 50px;";
+  node.setAttributeNode(style);
+  
+  document.getElementById("form").appendChild(node)
+
+  document.getElementById("generate").style.display  = "none";
+
+  document.getElementById("update").style.display  = "block";
+
+
+  var dataToSend = {
+    "input_type" : selectValue,
+    "input_class" : className,
+    "input_placeholder" : placeholderName,
+    "input_id" : idName,
+  };
+
+  sendData(dataToSend);
+}
+
+function changeClassValue()
+{
+  var inputlength = document.getElementById('form').childNodes.length;
+  var inputField = document.getElementById('form').childNodes;
+  var className = document.getElementById("className").value;
+
+  if(inputlength >= 1){
+    inputField[0].setAttribute('class', className); 
+  }
+}
+
+function changePlaceholderValue()
+{
+  var inputlength = document.getElementById('form').childNodes.length;
+  var inputField = document.getElementById('form').childNodes;
+  var className = document.getElementById("placeholderName").value;
+  
+  if(inputlength >= 1){
+    inputField[0].setAttribute('placeholder', className); 
+  }
+}
+
+
+function changeIdValue()
+{
+  var inputlength = document.getElementById('form').childNodes.length;
+  var inputField = document.getElementById('form').childNodes;
+  var className = document.getElementById("idName").value;
+
+  console.log(inputField);
+  
+  if(inputlength >= 1){
+    inputField[0].setAttribute('id', className); 
+  }
+}
+
+
+
+function sendData(dataToSend) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/saveFields");
+    xhr.setRequestHeader('Content-type', 'application/json');
+    //xhr.onload = requestComplete;
+    xhr.send(JSON.stringify(dataToSend));
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var resp = JSON.parse(xhr.responseText);
+      document.getElementById("data_id").value = resp.data;
+    }
+  }
+
+
+}
+
+function updateFields() {
+
+ dataToSend = { 
+   '_id' : document.getElementById("data_id").value,
+   'input_type' : document.getElementById("selectValue").value,
+    'input_class' : document.getElementById("className").value,
+    'input_placeholder' : document.getElementById("placeholderName").value,
+    'input_id' : document.getElementById("idName").value
+ }
+ var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/updateFields");
+    xhr.setRequestHeader('Content-type', 'application/json');
+    //xhr.onload = requestComplete;
+    xhr.send(JSON.stringify(dataToSend));
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var resp = JSON.parse(xhr.responseText);
+      document.getElementById("data_id").value = resp.data;
+    }
+  }
+
+
+}
+</script>
+</html>
